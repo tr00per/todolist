@@ -3,7 +3,13 @@
 {-# LANGUAGE TemplateHaskell   #-}
 {-# LANGUAGE TypeOperators     #-}
 
-module Lib09 where
+module Lib09
+( proxy
+, ToDoApi (..)
+, Task (..)
+, TaskId
+, staticData
+) where
 
 import           Data.Aeson.TH (defaultOptions, deriveJSON)
 import           Data.Text     (Text)

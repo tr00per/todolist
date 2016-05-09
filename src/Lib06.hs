@@ -1,7 +1,8 @@
 {-# LANGUAGE OverloadedStrings #-}
-module Lib06 (
-dispatch
+module Lib06
+( dispatch
 ) where
+
 import           Data.ByteString      (ByteString)
 import           Data.ByteString.Lazy (fromStrict)
 import           Data.List            (intercalate, intersperse)

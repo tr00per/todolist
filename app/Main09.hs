@@ -24,8 +24,8 @@ server = singleTask
           singleTask :: Maybe TaskId -> Handler Task
           singleTask Nothing =
                 throwError $ err400 { errBody = "Musisz wskazać element." }
-          singleTask (Just id) =
-                goodOrDie $ lookup id [(taskId task, task) | task <- staticData]
+          singleTask (Just tid) =
+                goodOrDie $ lookup tid [(taskId task, task) | task <- staticData]
 
           goodOrDie :: Maybe Task -> Handler Task
           goodOrDie Nothing =
