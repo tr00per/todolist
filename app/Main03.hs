@@ -4,6 +4,8 @@ import           Network.HTTP.Types       (status200)
 import           Network.Wai              (responseStream)
 import           Network.Wai.Handler.Warp (run)
 
+main = run 8080 application
+
 application _ respond = respond $ responseStream
     status200
     [("Content-Type", "text/plain")]
@@ -20,5 +22,3 @@ our first chunk of data, to make sure the client sees the data immediately.
 However, there’s no need to flush at the end of a response. WAI requires that
 the handler automatically flush at the end of a stream.
 -}
-
-main = run 3000 application

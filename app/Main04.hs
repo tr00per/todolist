@@ -7,6 +7,10 @@ import           Network.HTTP.Types                 (status200)
 import           Network.Wai                        (responseBuilder)
 import           Network.Wai.Handler.Warp           (run)
 
+main = do
+    visitorCount <- newMVar 0
+    run 8080 $ application visitorCount
+
 application countRef _ respond =
     modifyMVar countRef $ \count -> do
         let count' = count + 1
@@ -27,7 +31,3 @@ end up being copied directly into the final output buffer, instead of first
 being copied into a temporary ByteString buffer to only later be copied into
 the final buffer.
 -}
-
-main = do
-    visitorCount <- newMVar 0
-    run 3000 $ application visitorCount
