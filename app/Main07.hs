@@ -1,7 +1,7 @@
 {-# LANGUAGE DataKinds         #-}
+{-# LANGUAGE DeriveGeneric     #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TypeOperators     #-}
-{-# LANGUAGE DeriveGeneric #-}
 
 import           Data.Aeson               (ToJSON)
 import           Data.Text                (Text)
