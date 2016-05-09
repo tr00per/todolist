@@ -1,12 +1,15 @@
 {-# LANGUAGE OverloadedStrings #-}
+
 import           Control.Concurrent       (threadDelay)
 import           Network.HTTP.Types       (status200)
-import           Network.Wai              (responseStream)
+import           Network.Wai              (Application, responseStream)
 import           Network.Wai.Handler.Warp (run)
 
-main = run 8080 application
+main :: IO ()
+main = run 8080 app
 
-application _ respond = respond $ responseStream
+app :: Application
+app _ sendResponse = sendResponse $ responseStream
     status200
     [("Content-Type", "text/plain")]
     $ \send flush -> do
@@ -14,11 +17,7 @@ application _ respond = respond $ responseStream
         flush
         threadDelay 1000000
         send "All done!\n"
+        -- na końcu jest automatyczny flush
 
-{-
-We use responseStream, and our third argument is a function which takes our
-"send a builder" and "flush the buffer" functions. Notice how we flush after
-our first chunk of data, to make sure the client sees the data immediately.
-However, there’s no need to flush at the end of a response. WAI requires that
-the handler automatically flush at the end of a stream.
--}
+-- send :: Builder -> IO ()
+-- flush :: IO ()

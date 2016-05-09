@@ -37,3 +37,5 @@ staticData = [ Task 1 "Kupić bułki"
              ]
 
 instance ToJSON Task
+
+-- 1. Dodać nowe pole: flagę taskDone

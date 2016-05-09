@@ -1,4 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
+
 import           Network.HTTP.Types          (status200)
 import           Network.Wai                 (Application, responseFile)
 import           Network.Wai.Handler.Warp    (run)
@@ -14,5 +15,5 @@ app _ sendResponse = sendResponse $ responseFile
     "static/html/index.html"   -- ścieżka względem bieżącego katalogu!
     Nothing                    -- czy to odpowiedź częściowa? (nagłówek Range)
 
--- Lista "middleware'u":
+-- Lista "middleware'ów":
 -- https://github.com/yesodweb/wai/tree/master/wai-extra/Network/Wai/Middleware

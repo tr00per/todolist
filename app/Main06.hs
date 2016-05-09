@@ -1,4 +1,3 @@
-{-# LANGUAGE OverloadedStrings #-}
 import           Lib06                    (dispatch)
 import           Network.Wai              (Application, pathInfo)
 import           Network.Wai.Handler.Warp (run)

@@ -1,4 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
+
 import           Data.ByteString          (ByteString)
 import           Data.ByteString.Lazy     (fromStrict)
 import           Data.List                (intercalate, intersperse)
@@ -8,12 +9,13 @@ import           Data.Text.Encoding       (encodeUtf8)
 import           Network.HTTP.Types       (Status, status200, status404)
 import           Network.Wai
 import           Network.Wai.Handler.Warp (run)
+-- import           Network.Wai.Middleware.Gzip
 
 main :: IO ()
 main = run 8080 app
 
 -- compress :: GzipSettings
--- compress = GzipSettings GzipCompress defaultCheckMime
+-- compress = def { gzipFiles = GzipCompress }
 
 app :: Application
 app request sendResponse = sendResponse $ dispatch $ pathInfo request
@@ -23,18 +25,8 @@ dispatch [] =
     htmlOk "index.html"
 dispatch ["main.js"] =
     sendJs "main.js"
-dispatch ["echo", msg] =
-    echo msg
 dispatch _ =
     htmlMissing "404.html"
-
-echo :: Text -> Response
-echo msg = responseLBS
-    status200
-    [ ("Content-Type", "text/plain")
-    , ("X-Echo", encodeUtf8 msg)
-    ]
-    (fromStrict $ encodeUtf8 msg)
 
 htmlOk, htmlMissing :: String -> Response
 htmlOk = sendHtml status200
@@ -50,3 +42,9 @@ sendWholeFile :: ByteString -> String -> Status -> String -> Response
 sendWholeFile mime dir status path =
     responseFile status [("Content-Type", mime)] combinedPath Nothing
     where combinedPath = foldr1 mappend ["static/", dir, "/", path]
+
+-- 1. Dodać obsługę kompresji odpowiedzi z niedomyślnymi opcjami
+-- 2. Umożliwić zapytanie o dowolny pliku z wybranego katalogu
+-- 3. Zabezpieczyć funkcję z poprzedniego punktu przed przechodzeniem do wyższego pozimu katalogów
+-- 4. Dodać końcówkę /echo/<xxx>, który zwróci do użytkownika to <xxx>
+-- 5. Końcówka z poprzedniego punktu powinna zwracać <xxx> w nagłówku X-Echo

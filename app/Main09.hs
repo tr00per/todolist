@@ -24,14 +24,12 @@ server = singleTask
           singleTask :: Maybe TaskId -> Handler Task
           singleTask Nothing =
                 throwError $ err400 { errBody = "Musisz wskazać element." }
-          singleTask (Just tid) =
-                goodOrDie $ lookup tid [(taskId task, task) | task <- staticData]
-
-          goodOrDie :: Maybe Task -> Handler Task
-          goodOrDie Nothing =
-                throwError $ err400 { errBody = "Wskzany element nie istnieje." }
-          goodOrDie (Just t) =
-                return t
+          singleTask (Just id) =
+                case lookup id [(taskId task, task) | task <- staticData] of
+                    Nothing ->
+                        throwError $ err400 { errBody = "Wskazany element nie istnieje." }
+                    (Just t) ->
+                        return t
 
 rawApp :: Application
 rawApp request sendResponse = sendResponse $ dispatch $ pathInfo request

@@ -26,30 +26,31 @@ server = singleTask
           allTasks = return staticData
 
           singleTask :: Maybe TaskId -> Handler Task
-          singleTask Nothing =
-                throwError $ err400 { errBody = "Musisz wskazać element." }
           singleTask (Just id) =
-                goodOrDie $ lookup id [(taskId task, task) | task <- staticData]
-
-          goodOrDie :: Maybe Task -> Handler Task
-          goodOrDie Nothing =
-                throwError $ err400 { errBody = "Wskzany element nie istnieje." }
-          goodOrDie (Just t) =
-                return t
+                case lookup id [(taskId task, task) | task <- staticData] of
+                    Nothing ->
+                        throwError $ err400 { errBody = "Wskazany element nie istnieje." }
+                    (Just t) ->
+                        return t
 
 type ToDoApi = "task" :> QueryParam "id" TaskId :> Get '[JSON] Task
           :<|> "tasks" :> Get '[JSON] [Task]
 
 type TaskId = Int
 type TaskBody = Text
+type TaskState = Bool
 
 data Task = Task { taskId   :: TaskId
                  , taskBody :: TaskBody
+                 , taskDone :: TaskState
                  } deriving (Eq, Show)
 
 staticData :: [Task]
-staticData = [ Task 1 "Kupić bułki"
-             , Task 2 "Odebrać garnitur"
+staticData = [ Task 1 "Kupić bułki" False
+             , Task 2 "Odebrać garnitur" False
+             , Task 3 "Naprawić okulary" True
              ]
 
 $(deriveJSON defaultOptions ''Task)
+
+-- 1. Dodać obsługę sytuacji, w której nie został podany ID pojedynczego zadania

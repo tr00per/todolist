@@ -78,6 +78,7 @@ executable todo05
                        , text
                        , http-types
                        , wai
+                       , wai-extra
                        , warp
     default-language:    Haskell2010
 

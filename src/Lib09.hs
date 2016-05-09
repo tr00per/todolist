@@ -20,18 +20,21 @@ proxy = Proxy
 
 type ToDoApi = "task" :> QueryParam "id" TaskId :> Get '[JSON] Task
           :<|> "tasks" :> Get '[JSON] [Task]
-          :<|> Raw
+          :<|> Raw -- przekazanie sterowania do innej aplikacji WAI
 
 type TaskId = Int
 type TaskBody = Text
+type TaskState = Bool
 
 data Task = Task { taskId   :: TaskId
                  , taskBody :: TaskBody
+                 , taskDone :: TaskState
                  } deriving (Eq, Show)
 
 staticData :: [Task]
-staticData = [ Task 1 "Kupić bułki"
-             , Task 2 "Odebrać garnitur"
+staticData = [ Task 1 "Kupić bułki" False
+             , Task 2 "Odebrać garnitur" False
+             , Task 3 "Naprawić okulary" True
              ]
 
 $(deriveJSON defaultOptions ''Task)
