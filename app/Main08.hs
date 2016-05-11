@@ -26,8 +26,8 @@ server = singleTask
           allTasks = return staticData
 
           singleTask :: Maybe TaskId -> Handler Task
-          singleTask (Just id) =
-                case lookup id [(taskId task, task) | task <- staticData] of
+          singleTask (Just tid) =
+                case lookup tid [(taskId task, task) | task <- staticData] of
                     Nothing ->
                         throwError $ err400 { errBody = "Wskazany element nie istnieje." }
                     (Just t) ->
@@ -54,3 +54,4 @@ staticData = [ Task 1 "Kupić bułki" False
 $(deriveJSON defaultOptions ''Task)
 
 -- 1. Dodać obsługę sytuacji, w której nie został podany ID pojedynczego zadania
+-- 2. Zamienić wyrażenie listowe w wywołaniu lookup na mapowanie

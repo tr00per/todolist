@@ -3,11 +3,13 @@ extra-package-dbs: []
 packages:
 - '.'
 extra-deps:
-- aeson-0.11.2.0
+- aeson-0.11.1.4
 - http2-1.6.0
+- persistent-2.5
+- persistent-sqlite-2.5
+- persistent-template-2.5.1
 - servant-0.7
 - servant-server-0.7
-- text-1.2.2.1
 - warp-3.2.6
 arch: x86_64
 package-indices:
