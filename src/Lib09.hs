@@ -24,11 +24,11 @@ type ToDoApi = "task" :> QueryParam "id" TaskId :> Get '[JSON] Task
 
 type TaskId = Int
 type TaskBody = Text
-type TaskState = Bool
+type TaskFlag = Bool
 
 data Task = Task { taskId   :: TaskId
                  , taskBody :: TaskBody
-                 , taskDone :: TaskState
+                 , taskDone :: TaskFlag
                  } deriving (Eq, Show)
 
 staticData :: [Task]

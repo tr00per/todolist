@@ -41,7 +41,7 @@ sendJs = sendWholeFile "text/javascript" "js" status200
 sendWholeFile :: ByteString -> String -> Status -> String -> Response
 sendWholeFile mime dir status path =
     responseFile status [("Content-Type", mime)] combinedPath Nothing
-    where combinedPath = foldr1 mappend ["static/", dir, "/", path]
+    where combinedPath = foldr1 (++) ["static/", dir, "/", path]
 
 -- 1. Dodać obsługę kompresji odpowiedzi z niedomyślnymi opcjami
 -- 2. Umożliwić zapytanie o dowolny pliku z wybranego katalogu
