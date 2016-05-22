@@ -9,6 +9,6 @@ import           Servant                  ((:<|>) (..), Handler, Server, err400,
 main :: IO ()
 main = do
     migrate
-    -- (johnId, janeId) <- insertData
-    -- selectData johnId
-    -- cleanupData johnId janeId
+    (johnId, janeId) <- insertData
+    selectData johnId
+    cleanupData johnId janeId
